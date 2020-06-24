@@ -3,7 +3,7 @@ from pathlib import Path
 from PIL import Image
 
 # Load the image of the person we want to find similar people for
-known_image = face_recognition.load_image_file("rui_mao.jpg")
+known_image = face_recognition.load_image_file("test_face.jpg")
 
 # Encode the known image
 known_image_encoding = face_recognition.face_encodings(known_image)[0] #only one face in this image
