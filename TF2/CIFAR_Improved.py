@@ -34,7 +34,7 @@ x = Dropout(0.2)(x)
 x = Conv2D(64, (3, 3), activation="relu", padding="same")(x)
 x = BatchNormalization()(x)
 x = MaxPooling2D(2, 2)(x)
-#x = Dropout(0.2)(x)
+x = Dropout(0.2)(x)
 x = Conv2D(32, (3, 3), activation="relu", padding="same")(x)
 x = BatchNormalization()(x)
 x = MaxPooling2D(2, 2)(x)
@@ -43,7 +43,7 @@ x = Dropout(0.2)(x)
 x = Conv2D(128, (3, 3), activation="relu", padding="same")(x)
 x = BatchNormalization()(x)
 x = MaxPooling2D(2, 2)(x)
-#x = Dropout(0.2)(x)
+x = Dropout(0.2)(x)
 x = Conv2D(128, (3, 3), activation="relu", padding="same")(x)
 x = BatchNormalization()(x)
 x = MaxPooling2D(2, 2)(x)
@@ -60,7 +60,11 @@ model.compile(optimizer='adam',
               loss='sparse_categorical_crossentropy',
               metrics=['accuracy'])
 
-model.fit(X_train, Y_train, validation_data=(X_test, Y_test), epochs=50)
+r = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), epochs=50)
+'''
+#Adding this Data Augmentation will cause the validation loss/accuracy fluctuates
+#That maybe caused by the learning rate or the batch size or the size of validation data
+
 #Fit with data augmentation
 #Note: If I run this after calling the previous model.fit(), it will continue training where it left off(Using the same weights and biases)
 #Define the batch size
@@ -73,6 +77,7 @@ train_generator = data_generator.flow(X_train, Y_train, batch_size)
 steps_per_epoch = X_train.shape[0] // batch_size
 #Fit the train generator
 r = model.fit(train_generator, validation_data=(X_test, Y_test), steps_per_epoch=steps_per_epoch, epochs=50)
+'''
 
 plt.plot(r.history["loss"], label="Loss")
 plt.plot(r.history["val_loss"], label="Val Loss")
@@ -83,3 +88,5 @@ plt.plot(r.history["accuracy"], label="accuracy")
 plt.plot(r.history["val_accuracy"], label="Val accuracy")
 plt.legend
 plt.show()
+
+model.save("CIFAR_Improved_WO_Data_Augmentation.h5")
