@@ -139,4 +139,4 @@ plt.legend()
 plt.show()
 
 os.chdir("..")
-model.save("food_classifier.h5")
+model.save("food_classifier_data_augmentation.h5")
