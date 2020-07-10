@@ -43,7 +43,7 @@ os.mkdir("data/train/food")
 os.mkdir("data/test/nonfood")
 os.mkdir("data/test/food")
 """
-Uncomment the code below if you do not have not separated the training data and validation data
+Uncomment the code below if you have not separated the training data and validation data
 """
 # os.chdir("Food-5K")
 path = "training"
