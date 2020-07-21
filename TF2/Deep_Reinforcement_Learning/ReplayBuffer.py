@@ -5,7 +5,7 @@ class ReplayBuffer:
     def __init__(self, obs_dim, act_dim, size):
         self.obs1_buf1 = np.zeros([size, obs_dim], dtype=np.float32) # A buffer to store the current state
         self.obs1_buf2 = np.zeros([size, obs_dim], dtype=np.float32)# A buffer to store the next state
-        self.acts_buf = np.zeros(size, dtype=np.unint8)# A buffer to store actions. int(0:26) unint8
+        self.acts_buf = np.zeros(size, dtype=np.uint8)# A buffer to store actions. int(0:26) unint8
         self.rews_buf = np.zeros(size, dtype=np.float32)# A buffer to store the reward. float32
         self.done_buf = np.zeros(size, dtype=np.uint8)# A buffer to store the done flag. unint8
         self.ptr, self.size, self.max_size = 0, 0, size# Initialize the pointer and the size to be 0 and the max size to be size

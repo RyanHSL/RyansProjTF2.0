@@ -1,6 +1,7 @@
-import ReplayBuffer
-import MultiStockEnv
-import DQNAgent
+# If using import it will import modules instead of class objects. Modules are not callable.
+from ReplayBuffer import ReplayBuffer
+from MultiStockEnv import MultiStockEnv
+from DQNAgent import DQNAgent
 
 from tensorflow.keras.models import Model
 from tensorflow.keras.layers import Dense, Input
@@ -37,7 +38,7 @@ def get_scaler(env):
     # Initialize an empty states list
     states = []
     # Loop through all items in env
-    for _ in range(env.step):
+    for _ in range(env.n_step):
         # Pass a randomly chosen action from the action_space to the action object
         action = np.random.choice(env.action_space)
         # Use env.step(action) to get the state, reward, done, and info
@@ -45,7 +46,7 @@ def get_scaler(env):
         # Append the state to the states list
         states.append(state)
         # Break the loop if the done flag is true
-        if done == True:
+        if done:
             break
     # Instantiate the StandardScaler object
     scaler = StandardScaler()
@@ -58,32 +59,31 @@ def make_dir(directory):
     if not os.path.exists(directory):
         os.makedirs(directory)
     return
-# Define a mlp function to do the Multi-layer Perceptron
-def mlp(input_dim, n_action, n_hidden_layers = 1, hidden_dim = 32):
-    # Input layer
-    i = Input(shape=(input_dim, ))
-    x = i
-    # Hidden layer
-    for _ in range(n_hidden_layers):
-        # Insert a dense layer
-        x = Dense(hidden_dim, activation="relu")(x)
-    # Final layer (output size: n_action)
-    # Since I am doing regression, the output does not have an activation function
-    x = Dense(n_action)(x)
-    # Make the model and compile it and finally return it
-    model = Model(i, x)
-
-    model.compile(optimizer=Adam,
-                  loss="mse")
-
-    return model
+# # Define a mlp function to do the Multi-layer Perceptron
+# def mlp(input_dim, n_action, n_hidden_layers = 1, hidden_dim = 32):
+#     # Input layer
+#     i = Input(shape=(input_dim, ))
+#     x = i
+#     # Hidden layer
+#     for _ in range(n_hidden_layers):
+#         # Insert a dense layer
+#         x = Dense(hidden_dim, activation="relu")(x)
+#     # Final layer (output size: n_action)
+#     # Since I am doing regression, the output does not have an activation function
+#     x = Dense(n_action)(x)
+#     # Make the model and compile it and finally return it
+#     model = Model(i, x)
+#
+#     model.compile(optimizer=Adam,
+#                   loss="mse")
+#
+#     return model
 
 def play_one_episode(agent, env, is_train):
     # Note: after transforming states are already 1xD
     # Reset the state then transform it and set the done flag to be False
-    scaler = get_scaler(env)
     state = env.reset()
-    state = scaler.transform(state)
+    state = scaler.transform([state]) # states.shape = (N, 7)
     done = False
     while not done:
         # Get the action through agent.act(state)
@@ -91,7 +91,7 @@ def play_one_episode(agent, env, is_train):
         # Get the next_state, reward, done, info through env.step(action)
         next_state, reward, done, info = env.step(action)
         # Use scaler to transform the next_state
-        next_state = scaler.transform(next_state)
+        next_state = scaler.transform([next_state])
         if is_train == "train":
             # Add the latest transition to our replay buffer
             # Update the replay memory in agent with state, action, reward, next_state and done
@@ -109,7 +109,7 @@ if __name__ == '__main__':
     rewards_folder = "rl_trader_rewards"
     num_episodes = 2000
     batch_size = 32
-    initial_investiment = 50000
+    initial_investment = 10000
 
     parser = argparse.ArgumentParser()
     parser.add_argument("-m", "--mode", type=str, required=True, help='either "train" or "test"')
@@ -126,13 +126,13 @@ if __name__ == '__main__':
     train_data = data[:n_train]
     test_data = data[n_train:]
 
-    env = MultiStockEnv(train_data, initial_investiment)
+    env = MultiStockEnv(train_data, initial_investment)
     state_size = env.state_dim
     action_size = len(env.action_space)
     agent = DQNAgent(state_size, action_size)
     scaler = get_scaler(env)
 
-    # Store the final value of the portfolip (end of the episode)
+    # Store the final value of the portfolio (end of the episode)
     portfolio_value = []
 
     if args.mode == "test":
@@ -141,7 +141,7 @@ if __name__ == '__main__':
             scaler = pickle.load(f)
 
         # Remake the env with test data
-        env = MultiStockEnv(test_data, initial_investiment)
+        env = MultiStockEnv(test_data, initial_investment)
 
         # Make sure epsilon is not 1
         # No need to run multiple episode if epsilon = 0, it's is deterministic
@@ -168,4 +168,3 @@ if __name__ == '__main__':
 
     # Save portfolio value for each episode
     np.save(f"{rewards_folder}/{args.mode}.npy", portfolio_value)
-    

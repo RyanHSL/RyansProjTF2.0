@@ -1,7 +1,9 @@
-from rl_trader import mlp
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers import Dense, Input
+from tensorflow.keras.optimizers import Adam
+from ReplayBuffer import ReplayBuffer
+from MultiStockEnv import MultiStockEnv
 
-import ReplayBuffer
-import MultiStockEnv
 import numpy as np
 
 class DQNAgent:
@@ -13,7 +15,7 @@ class DQNAgent:
         self.epsilon = 1.0 # Exploration rate
         self.epsilon_min = 0.01
         self.epsilon_decay = 0.995
-        self.model = mlp(state_size, action_size)
+        self.model = self.mlp(state_size, action_size)
 
     def update_replay_memory(self, state, action, reward, next_state, done):
         self.memory.store(state, action, reward, next_state, done)
@@ -70,3 +72,23 @@ class DQNAgent:
 
     def save(self, name):
         self.model.save_weights(name)
+
+    # Define a mlp function to do the Multi-layer Perceptron
+    def mlp(self, input_dim, n_action, n_hidden_layers=1, hidden_dim=32):
+        # Input layer
+        i = Input(shape=(input_dim,))
+        x = i
+        # Hidden layer
+        for _ in range(n_hidden_layers):
+            # Insert a dense layer
+            x = Dense(hidden_dim, activation="relu")(x)
+        # Final layer (output size: n_action)
+        # Since I am doing regression, the output does not have an activation function
+        x = Dense(n_action)(x)
+        # Make the model and compile it and finally return it
+        model = Model(i, x)
+
+        model.compile(optimizer="adam",
+                      loss="mse")
+
+        return model

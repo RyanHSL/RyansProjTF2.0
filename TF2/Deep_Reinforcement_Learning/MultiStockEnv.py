@@ -18,7 +18,7 @@ class MultiStockEnv:
         1 = hold
         2 = buy
     """
-    def __init__(self, data, initial_investment = 50000):
+    def __init__(self, data, initial_investment = 10000):
         # Data
         self.stock_price_history = data
         self.n_step, self.n_stock = self.stock_price_history.shape
@@ -54,8 +54,8 @@ class MultiStockEnv:
         """
         Initialize a few more attributes and returns the initial state
         """
-        self.cur_step = 0 # Point to the first day of stock prices in the dataset
-        self.stock_owned = np.zeros(self.n_stock) # How many shares of each stock we own
+        self.cur_step = 0
+        self.stock_owned = np.zeros(self.n_stock)
         self.stock_price = self.stock_price_history[self.cur_step]
         self.cash_in_hand = self.initial_investment
 
@@ -99,12 +99,15 @@ class MultiStockEnv:
         """
         obs = np.empty(self.state_dim)
         obs[:self.n_stock] = self.stock_owned
-        obs[self.n_stock:self.n_stock * 2] = self.stock_price
+        obs[self.n_stock:2 * self.n_stock] = self.stock_price
         obs[-1] = self.cash_in_hand
 
         return obs
 
-    def _get_val(self, action):
+    def _get_val(self):
+        return self.stock_owned.dot(self.stock_price) + self.cash_in_hand
+
+    def _trade(self, action):
         """
         Index the action we want to perform
         0 = sell
