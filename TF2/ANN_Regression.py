@@ -18,6 +18,28 @@ models = tf.keras.Sequential([
     tf.keras.layers.Dense(128, input_shape=(2,), activation="relu"),
     tf.keras.layers.Dense(1)
 ])
+"""Detailed gradient descent"""
+# Define a loss function
+# def mse(X, Y):
+#     return tf.reduce_mean(tf.square(Y - X))
+# # Use Gradient Tape to record the gradient
+# def get_grad(X, Y):
+#     with tf.GradientTape as tape:
+#         loss = mse(X, Y)
+#     g = tape.gradient(loss, model.params)
+#
+#     return g
+# # Define an optimizer
+# optimizer = tf.keras.optimizers.Adam(lr=1e-2)
+# # Store the losses
+# losses = []
+# # Perform gradient descent
+# epochs = 50
+# for i in range(epochs):
+#     g = get_grad(X, Y)
+#     loss = mse(X, Y)
+#     optimizer.apply_gradients(zip(g, model.params))
+#     losses.append(loss)
 #Compile and fit. Notice: Since it is a linear regression model, I don't add accuracy metrics
 optimizer = tf.keras.optimizers.Adam(0.01)
 #loss = tf.keras.losses.MSE
