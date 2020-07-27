@@ -24,7 +24,7 @@ models = tf.keras.Sequential([
 #     return tf.reduce_mean(tf.square(Y - X))
 # # Use Gradient Tape to record the gradient
 # def get_grad(X, Y):
-#     with tf.GradientTape as tape:
+#     with tf.GradientTape() as tape:
 #         loss = mse(X, Y)
 #     g = tape.gradient(loss, model.params)
 #
