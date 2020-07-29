@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #load the data
-data = pd.read_csv("Moore.csv").values
+data = pd.read_csv("../Moore.csv").values
 X = data[:,0].reshape(-1, 1) #Make it a 2-D array of size N*D where D = 1
 Y = data[:,1]
 #plot the data
