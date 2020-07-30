@@ -1,6 +1,7 @@
 from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Dropout, BatchNormalization, Flatten, Dense
 from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.optimizers import Adam
+from tensorflow.keras.preprocessing.image import ImageDataGenerator
 from tensorflow.keras.datasets import cifar10
 from sklearn.preprocessing import StandardScaler
 
@@ -53,12 +54,17 @@ def main():
     X_train, Y_train, X_test, Y_test, K = get_data()
     print(X_train[0].shape)
     i = Input(shape=X_train[0].shape)
+    batch_size = 128
 
     model = get_model(i, K)
-    model.compile(optimizer=Adam(lr=2e-3),
+    model.compile(optimizer="adam",
                   loss="sparse_categorical_crossentropy",
                   metrics=["accuracy"])
-    r = model.fit(X_train, Y_train, epochs=30, batch_size=128, validation_data=(X_test, Y_test))
+
+    data_generator = ImageDataGenerator(rotation_range=45 ,width_shift_range=0.2, height_shift_range=0.2, shear_range=0.2, zoom_range=0.2, horizontal_flip=True, fill_mode="nearest")
+    train_generator = data_generator.flow(X_train, Y_train, batch_size=batch_size, shuffle=True)
+    step_size = X_train.shape[0] // batch_size
+    r = model.fit(train_generator, validation_data=(X_test, Y_test), steps_per_epoch=step_size, epochs=50)
 
     plt.plot(r.history["loss"], label="loss")
     plt.plot(r.history["val_loss"], label="val loss")
@@ -71,6 +77,8 @@ def main():
     plt.show()
 
     return
+
+
 
 if __name__ == "__main__":
     main()

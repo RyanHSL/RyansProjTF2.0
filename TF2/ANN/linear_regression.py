@@ -4,7 +4,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 #load the data
-data = pd.read_csv("../Moore.csv").values
+data = pd.read_csv("Moore.csv").values
 X = data[:,0].reshape(-1, 1) #Make it a 2-D array of size N*D where D = 1
 Y = data[:,1]
 #plot the data
@@ -81,7 +81,7 @@ Yhat2 = (X.dot(w) + b).flatten()
 #Don't use == for floating points
 print("Comparison Result: ", np.allclose(Yhat, Yhat2))
 
-model.save("Linear_regression.h5")
-model = tf.keras.models.load_model("Linear_regression.h5")
-print(model.layers)
+# model.save("Linear_regression.h5")
+# model = tf.keras.models.load_model("Linear_regression.h5")
+# print(model.layers)
 #model.evaluate(X, Y)
