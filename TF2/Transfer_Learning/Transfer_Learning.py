@@ -76,7 +76,7 @@ gen_valid = ImageDataGenerator(preprocessing_function=preprocess_input)
 # Declare the batch size
 batch_size = 128
 # Create the generators
-# (Nots: do not need to shuffle the train data because all I am is transforming it. The class_mode is "binary")
+# (Notes: do not need to shuffle the train data because all I am doing is transforming it. The class_mode is "binary")
 train_generator = gen_train.flow_from_directory(train_path,
                                                 IMAGE_SIZE,
                                                 batch_size=batch_size,

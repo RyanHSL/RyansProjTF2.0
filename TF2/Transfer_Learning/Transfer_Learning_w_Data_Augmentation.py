@@ -93,7 +93,7 @@ x = Dense(K, activation="softmax")(x)
 model = Model(ptm.input, x)
 # view the structure of the model
 print(model.summary())
-# Create an instance of ImageDataGenerator.(Note: the preprocessing_function shoud be preprocess_input)
+# Create an instance of ImageDataGenerator.(Note: the preprocessing_function should be preprocess_input)
 gen_train = ImageDataGenerator(rotation_range=20,
                                width_shift_range=0.1,
                                height_shift_range=0.1,
