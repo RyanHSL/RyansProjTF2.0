@@ -1,3 +1,3 @@
 # RyansProjTF2.0
 
-This is a practice repo of the TF2.0 course of LazyProgrammer.
+This is a personal TF2.x playground.
