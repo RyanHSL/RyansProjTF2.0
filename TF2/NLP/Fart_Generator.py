@@ -89,7 +89,7 @@ def get_data():
     # data = df["content"].values
     df['content'] = df['content'].replace(r'http\S+', '', regex=True).replace(r'www\S+', '', regex=True).replace(r'https\S+', '', regex=True)
     data = df["content"].values
-    data = data[:2000]
+    data = data[-2000:]
     # data = " ".join(data)
     # tokens = clean_text(data)
     print(data[:50])
@@ -160,7 +160,7 @@ def main():
     # scheduler = tf.keras.callbacks.LearningRateScheduler(schedule)
     # r = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), epochs=100, callbacks=[scheduler], batch_size=1024)
     # r = model.fit(X_train, Y_train, validation_data=(X_test, Y_test), epochs=100, batch_size=1024)
-    r = model.fit(X, Y, epochs=200, batch_size = 256)
+    r = model.fit(X, Y, epochs=200, batch_size = 256) # loss: 0.4774 - accuracy: 0.8719
 
     plt.plot(r.history["loss"], label="loss")
     # plt.plot(r.history["val_loss"], label="val loss")
