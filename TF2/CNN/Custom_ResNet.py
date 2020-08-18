@@ -15,7 +15,7 @@ import zipfile
 # Config
 TEST_PATH = "Data/cats_dogs/test_set/test_set"
 TRAIN_PATH = "Data/cats_dogs/training_set/training_set"
-TARGET_SIZE = [100, 100]
+TARGET_SIZE = [32, 32]
 BATCH_SIZE = 32
 
 def get_data(path):
@@ -35,7 +35,7 @@ def get_data(path):
 
 def generate_data():
     gen_data = ImageDataGenerator(width_shift_range=0.2, height_shift_range=0.2, rotation_range=20, zoom_range=2.0,
-                                  horizontal_flip=True) # validation_split=0.2
+                                  horizontal_flip=True, rescale=1.0/255.0) # validation_split=0.2
     train_data = gen_data.flow_from_directory(TRAIN_PATH,
                                               shuffle=True,
                                               target_size=TARGET_SIZE,
@@ -165,7 +165,7 @@ def main():
     model.compile(optimizer=keras.optimizers.SGD(1e-3),
                   loss=keras.losses.categorical_crossentropy,
                   metrics=["accuracy"])
-    model.build(input_shape=(None, 100, 100, 3))
+    model.build(input_shape=(None, 32, 32, 3))
     model.summary()
 
     def schedule(epoch, lr):
