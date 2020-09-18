@@ -28,7 +28,7 @@ print(df.head())
 data_train, data_test, Y_train, Y_test = train_test_split(df["data"], Y, test_size=0.33)
 #Convert sentences to sequences
 maxVocab = 20000
-tokenizer = Tokenizer(num_words = maxVocab)
+tokenizer = Tokenizer(num_words = maxVocab, oov_token="<OOV>")
 tokenizer.fit_on_texts(data_train)
 train_sequences = tokenizer.texts_to_sequences(data_train)
 test_sequences = tokenizer.texts_to_sequences(data_test)

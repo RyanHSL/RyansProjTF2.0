@@ -30,7 +30,7 @@ def get_data():
 
 def text_to_sequence(train_text, test_text):
     maxVocab = 20000
-    tokenizer = Tokenizer(num_words=maxVocab)
+    tokenizer = Tokenizer(num_words=maxVocab, oov_token="<OOV>")
     tokenizer.fit_on_texts(train_text)
     train_sequence = tokenizer.texts_to_sequences(train_text)
     test_sequence = tokenizer.texts_to_sequences(test_text)

@@ -21,7 +21,7 @@ Y = df["b_labels"].values
 data_train, data_test, Y_train, Y_test = train_test_split(df["data"], Y, test_size=0.33)
 
 MAX_VOCAB_NUM = 20000
-tokenizer = Tokenizer(num_words=MAX_VOCAB_NUM)
+tokenizer = Tokenizer(num_words=MAX_VOCAB_NUM, oov_token="<OOV>")
 tokenizer.fit_on_texts(data_train)
 train_sequences = tokenizer.texts_to_sequences(data_train)
 test_sequences = tokenizer.texts_to_sequences(data_test)
