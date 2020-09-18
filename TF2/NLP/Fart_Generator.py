@@ -1,4 +1,4 @@
-from tensorflow.keras.layers import Input, Dense, LSTM, SimpleRNN, GRU, GlobalMaxPooling1D, Embedding
+from tensorflow.keras.layers import Input, Dense, LSTM, SimpleRNN, GRU, GlobalMaxPooling1D, Embedding, Bidirectional
 from tensorflow.keras.models import Model, Sequential
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.preprocessing.text import Tokenizer
@@ -22,8 +22,10 @@ class LSTMModel(Model):
 
         i = Input(shape=input_shape)
         x = Embedding(self.V, self.D, input_length=self.sequence_length)(i)
-        x = LSTM(self.M, activation=tf.nn.relu, return_sequences=True)(x)
-        x = LSTM(self.M, activation=tf.nn.relu, return_sequences=True)(x)
+        # x = LSTM(self.M, activation=tf.nn.relu, return_sequences=True)(x)
+        # x = LSTM(self.M, activation=tf.nn.relu, return_sequences=True)(x) # It only carries context forward
+        x = Bidirectional(LSTM(self.M, return_sequences=True))(x) # The Bidirectional layer can avoid the repeating predictions
+        x = Bidirectional(LSTM(self.M, return_sequences=True))(x)
         x = GlobalMaxPooling1D()(x)
         x = Dense(self.M, activation=tf.nn.relu)(x)
         x = Dense(self.V, activation=tf.nn.softmax)(x)  # Note: the output length is V
@@ -100,7 +102,7 @@ def get_data():
     print(data[:50])
     print(len(set(data)), "unique words")
     maxVocab = 20000
-    tokenizer = Tokenizer(num_words=maxVocab)
+    tokenizer = Tokenizer(num_words=maxVocab, oov_token="<OOV>") # OOV: Out Of Vocabulary
     tokenizer.fit_on_texts(data)
     sequences = tokenizer.texts_to_sequences(data)
     word2vec = tokenizer.word_index
@@ -214,7 +216,7 @@ def main():
             text = ' '.join(text)
             print(text)
 
-    model.save_weights("trump")
+    # model.save_weights("trump")
     return
 
 
