@@ -34,7 +34,7 @@ def bag_of_words(sentence):
 def predict_class(sentence):
     bow = bag_of_words(sentence)
     res = model.predict(np.array([bow]))[0]
-    ERROR_THRESHOLD = 0.5
+    ERROR_THRESHOLD = 0.8
     results = [[i, r] for i, r in enumerate(res) if r > ERROR_THRESHOLD]
     results.sort(key=lambda x:x[1], reverse=True)
     return_list = []
@@ -58,14 +58,15 @@ def get_response(intents_list, intents_json):
     return result
 
 if __name__ == "__main__":
+    counter = 0
     while True:
-        counter = 0
         message = input()
         ints = predict_class(message)
         res = get_response(ints, intents)
         counter = counter + 1 if res == unclear_resonse else 0
         if counter >= 3:
             print('I will connect you to one of our representatives.')
+            break
         print(res)
-        if ints[0]['intent'] == 'goodbye':
+        if len(ints) > 0 and ints[0]['intent'] == 'goodbye':
             break
