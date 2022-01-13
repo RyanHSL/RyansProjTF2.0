@@ -1,26 +1,36 @@
 {"intents": [
         {"tag": "greeting",
-         "patterns": ["Hi", "Hi there", "Hola", "Hello", "Hello there", "Hya", "Hya there", "How are you", "Is anyone there?", "Good day"],
+         "patterns": ["Hi", "Hi there", "Hola", "Hello", "Hello there", "Hya", "Hya there", "How are you", "Is anyone there?", "Good day", "Nice to see you",
+         "Nice to meet you.", "What's up", "Sup"],
          "responses": ["Hello", "Good to see you.", "Hi there, do you need anything from me?"]
         },
         {"tag": "goodbye",
-         "patterns": ["Bye", "See you later", "Goodbye", "Cya", "I will see around", "Bye Bye", "I gotta go"],
+         "patterns": ["Bye", "See you later", "Goodbye", "Cya", "I will see around", "Bye Bye", "I gotta go", "Leaving." ],
          "responses": ["See you.", "Have a nice day!", "Goodbye"]
         },
         {"tag": "thanks",
-         "patterns": ["Thanks", "Thank you", "That's helpful", "I appreciate it", "Thank you so much", "Thank you kindly"],
+         "patterns": ["Thanks", "Thank you", "That's helpful", "I appreciate it", "Thank you so much", "Thank you kindly", "Thanks for your help"],
          "responses": ["Happy to help!", "Any time!", "My pleasure"]
         },
         {"tag": "PAP",
-         "patterns": ["Am I eligible for the PAP?", "Can I get free drugs?", "I cannot afford paid drugs!", "I need PAP drugs.", "Can I get drugs free of charge?"],
+         "patterns": ["Am I eligible for the PAP?", "Can I get free drugs?", "I cannot afford paid drugs!", "I need PAP drugs.", "Can I get drugs free of charge?",
+           "Am I eligible for free drugs?", "I need free dosages", "I should be eligible for PAP", "I don't have enough money for the paid drugs.", "Can I get PAP?",
+           "I don't have enough money for the paid drug", "That is too expensive for me!", "I need financial assistance", "Can I have financial assistance?",
+           "I need help financially.", "I require PAP.", "I demand free drugs.", "Can you send me a temporary supply?", "I can only afford PAP drugs.",
+           "Can you evaluate my PAP eligibility?", "Do I meet the requirement for PAP?", "Will I receive a PAP?", "Am I qualified for PAP?", "Will I get PAP drugs?",
+           "Will I be qualified for the PAP program?", "Can I apply for PAP?", "Am I eligible to apply for PAP?", "Give me PAP drugs", "Can you give me PAP.",
+           "Can you apply PAP for me?", "Will I be able to meet the requirements of PAP?", "Is PAP available to me?"],
          "responses": ["You maybe eligible for the PAP, but we still need more information.", "We are going to send you a temporary supply.", "We need to contact your Health Care Provider to make the final decision."]
         },
         {"tag": "payments",
-         "patterns": ["Do you take credit cards?", "Do you accept Mastercard?", "Are you cash only?", "How do I pay for it?", "What kind of payment do you accept?"],
+         "patterns": ["Do you take credit cards?", "Do you accept Mastercard?", "Are you cash only?", "How do I pay for it?", "What kind of payment do you accept?",
+         "Do you accept cash?", "How do I pay?"],
          "responses": ["We accept VISA, Mastercard and AMEX", "We accept most major credit cards"]
         },
         {"tag": "opentoday",
-         "patterns": ["Are you open today?", "When do you open today?", "What are your hours today?", "Are you open right now?", "What is your business hour?"],
+         "patterns": ["Are you open today?", "When do you open today?", "What are your hours today?", "Are you open right now?", "What is your business hour?",
+         "When can I contact you?", "What time works for you?", "When will you open?", "What time will you close?", "When can we connect?", "When should we connect?",
+         "When will you be available?", "What time will you be free?", "When will you close?"],
          "responses": ["We're open every day from 9am-9pm", "Our hours are 9am-9pm every day"]
         }
    ]

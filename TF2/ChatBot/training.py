@@ -76,9 +76,9 @@ model.compile(loss='categorical_crossentropy', optimizer=sgd, metrics=['accuracy
 # model = RNN(64, len(train_y[0]), num_layers=2)
 
 
-model.compile(optimizer=sgd,
-                loss=keras.losses.CategoricalCrossentropy(from_logits=True),
-                metrics=['accuracy'])
+# model.compile(optimizer=sgd,
+#                 loss=keras.losses.CategoricalCrossentropy(from_logits=True),
+#                 metrics=['accuracy'])
 
 hist = model.fit(np.array(train_x), np.array(train_y), epochs=200, batch_size=5, verbose=1)
 model.save('chatbot.h5', hist)
